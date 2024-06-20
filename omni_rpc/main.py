@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from fastapi import Request
 
 from omni_rpc.routers import proxy_rpc
 

@@ -1,5 +1,6 @@
 import os
 
+PATH_TO_CHAINS = f"{os.getcwd()}/omni_rpc/chains/_data/chains"
 SUPPORTED_CAIP_2_NAMESPACES = ["eip155"]
 
 
@@ -14,8 +15,7 @@ def check_provider_availability(chain_id: int) -> bool:
         bool: True if provider is available, False otherwise.
     """
     for namespace in SUPPORTED_CAIP_2_NAMESPACES:
-        if os.path.exists(
-            f"{os.getcwd()}/omni_rpc/chains/_data/chains/{namespace}-{chain_id}.json"
-        ):
+        filename = f"{namespace}-{chain_id}.json"
+        if os.path.exists(f"{PATH_TO_CHAINS}/{filename}"):
             return True
     return False
