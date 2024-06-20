@@ -1,0 +1,3 @@
+[submodule "omni_rpc/chains"]
+	path = omni_rpc/chains
+	url = https://github.com/ethereum-lists/chains
