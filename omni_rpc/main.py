@@ -1,20 +1,10 @@
 from fastapi import FastAPI
 
+from omni_rpc.custom_logging import logger
 from omni_rpc.routers import proxy_rpc
 
 app = FastAPI()
 
+
+logger.info("Starting Omni RPC server")
 app.include_router(proxy_rpc.router)
-# async def main_route(chain_id: int):
-# @app.post("/")
-# async def proxy_rpc_message(chain_id: int, request: Request):
-#     print('ChainID', chain_id)
-#     #Steps:
-#     # Check if the chain_id is valid by checking the files
-#     # If valid, then get the providers
-#     # If not valid, return error
-#     # Forward request to providers
-#     # MErge response and return
-#     body = await request.json()
-#     print(body)
-#     return {"message": "Hey, It is me Goku"}

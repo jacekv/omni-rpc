@@ -4,6 +4,8 @@ import re
 
 import requests
 
+from omni_rpc.custom_logging import logger
+
 PATH_TO_CHAINS = f"{os.getcwd()}/omni_rpc/chains/_data/chains"
 SUPPORTED_CAIP_2_NAMESPACES = ["eip155"]
 
@@ -79,8 +81,12 @@ def forward_request(message: dict, providers: list) -> dict:
     number_of_providers = len(providers)
     responses = {}
     for provider in providers:
-        print(f"Forwarding request to {provider}")
+        logger.debug(f"Forwarding request to {provider}")
         response = requests.post(provider, json=message)
+        logger.debug(
+            f"Received response from {provider} with status code"
+            f" {response.status_code}"
+        )
         if number_of_providers == 1 and response.status_code != 200:
             response.raise_for_status()
         if response.status_code != 200:
