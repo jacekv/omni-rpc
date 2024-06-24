@@ -27,3 +27,9 @@ jobs:
           python-version: "3.11"
       - name: flake8 Lint
         uses: py-actions/flake8@v2
+      - name: Black lint
+        uses: psf/black@stable
+      - name: isort
+        uses: isort/isort-action@v1
+        with:
+            configuration: --force-single-line-imports --check-only --diff
