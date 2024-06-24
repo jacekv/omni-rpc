@@ -1,0 +1,29 @@
+name: CI shared workflow
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  CodeQualityChecks:
+    name: Static Code Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@v2
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            files.pythonhosted.org:443
+            github.com:443
+            install.python-poetry.org:443
+            pypi.org:443  
+      
+      - uses: actions/checkout@v4
+
+      - name: Set up Python environment
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: flake8 Lint
+        uses: py-actions/flake8@v2
