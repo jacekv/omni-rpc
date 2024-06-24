@@ -69,10 +69,10 @@ def forward_request(message: dict, providers: list) -> dict:
     Args:
         message (dict): The message to be forwarded.
         providers (list): The list of providers.
-    
+
     Returns:
         dict: The merged response from the providers.
-    
+
     Raises:
         HTTPError: If the status code is not 200.
     """
