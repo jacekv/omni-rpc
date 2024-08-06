@@ -98,10 +98,14 @@ def forward_request(message: dict, providers: list) -> dict:
             continue
 
         data = json.dumps(data)
-        if data not in responses:
-            responses[data] = 1
-        else:
-            responses[data] += 1
+        return json.loads(data)
+        # This part has been used for aggregating responses from all providers
+        # We will put that back in a later point of time with a subset of
+        # providers
+    #     if data not in responses:
+    #         responses[data] = 1
+    #     else:
+    #         responses[data] += 1
 
-    selected_response = max(responses, key=responses.__getitem__)
-    return json.loads(selected_response)
+    # selected_response = max(responses, key=responses.__getitem__)
+    return json.loads(data)
