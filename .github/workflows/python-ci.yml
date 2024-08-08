@@ -1,4 +1,4 @@
-name: CI shared workflow
+name: CI workflow
 
 on:
   pull_request:

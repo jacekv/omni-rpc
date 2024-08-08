@@ -1,3 +1,5 @@
+[![CI workflow](https://github.com/jacekv/omni-rpc/actions/workflows/python-ci.yml/badge.svg)](https://github.com/jacekv/omni-rpc/actions/workflows/python-ci.yml)
+
 # Omni RPC
 
 A small service which acts as a proxy for blockchain rpc endpoints.
