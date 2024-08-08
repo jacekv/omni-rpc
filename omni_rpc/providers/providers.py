@@ -79,7 +79,7 @@ def forward_request(message: dict, providers: list) -> dict:
         HTTPError: If the status code is not 200.
     """
     number_of_providers = len(providers)
-    responses = {}
+    # responses = {}
     for provider in providers:
         logger.debug(f"Forwarding request to {provider}")
         response = requests.post(provider, json=message)
