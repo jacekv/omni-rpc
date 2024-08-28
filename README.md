@@ -14,6 +14,12 @@ them to the user.
 
 THe rpc endpoints are taken from [Ethereum-Lists/Chains](https://github.com/ethereum-lists/chains).
 
+Give it a try:
+
+```bash
+curl -X POST --data '{"jsonrpc":"2.0","method":"eth_gasPrice","params":[],"id":1}' "http://omnirpc.varkiwi.com?chain_id=1"
+```
+
 ## Running
 
 You can run this service as a docker container, by running the following command:
@@ -33,6 +39,12 @@ provider = Web3(Web3.HTTPProvider('http://127.0.0.1:8000?chain_id=1'))
 
 block = provider.eth.get_block('latest')
 print(block)
+```
+
+or using curl:
+
+```bash
+curl -X POST --data '{"jsonrpc":"2.0","method":"eth_gasPrice","params":[],"id":73}' "http://127.0.0.1:8000?chain_id=1"
 ```
 
 As you can see, you are able to pass the chain_id as a query parameter. This
