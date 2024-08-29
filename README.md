@@ -17,7 +17,7 @@ THe rpc endpoints are taken from [Ethereum-Lists/Chains](https://github.com/ethe
 Give it a try:
 
 ```bash
-curl -X POST --data '{"jsonrpc":"2.0","method":"eth_gasPrice","params":[],"id":1}' "http://omnirpc.varkiwi.com?chain_id=1"
+curl -X POST --data '{"jsonrpc":"2.0","method":"eth_gasPrice","params":[],"id":1}' "https://omnirpc.varkiwi.com?chain_id=1"
 ```
 
 ## Running
