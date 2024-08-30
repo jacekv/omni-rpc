@@ -3,26 +3,24 @@ import uuid
 
 from pythonjsonlogger import jsonlogger
 
-
 def get_trace_id():
     return uuid.uuid4()
 
 
-class CustomJsonFormatter(jsonlogger.JsonFormatter):
-    def add_fields(self, log_record, record, message_dict):
-        super(CustomJsonFormatter, self).add_fields(
-            log_record, record, message_dict
-        )  # noqa: E501
-        log_record["dd.trace_id"] = str(get_trace_id())
+class ContextFilter(logging.Filter):
+    def filter(self, record):
+        record.trace_id = get_trace_id()
+        return True
 
 
 LOG_LEVEL = logging.DEBUG
-LOG_FORMAT = "%(asctime)s %(name)s %(levelname)s %(message)s %(dd.trace_id)s"
+LOG_FORMAT = "%(asctime)s %(name)s %(levelname)s %(message)s %(trace_id)s"
 
 logging.root.setLevel(LOG_LEVEL)
 logHandler = logging.StreamHandler()
-formatter = CustomJsonFormatter(LOG_FORMAT)
+formatter = jsonlogger.JsonFormatter(LOG_FORMAT)
 logHandler.setFormatter(formatter)
 logger = logging.getLogger(__name__)
 logger.setLevel(LOG_LEVEL)
+logger.addFilter(ContextFilter())
 logger.addHandler(logHandler)
