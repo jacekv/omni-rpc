@@ -3,13 +3,16 @@ import uuid
 
 from pythonjsonlogger import jsonlogger
 
+trace_id = None
+
+
 def get_trace_id():
     return uuid.uuid4()
 
 
 class ContextFilter(logging.Filter):
     def filter(self, record):
-        record.trace_id = get_trace_id()
+        record.trace_id = trace_id
         return True
 
 
