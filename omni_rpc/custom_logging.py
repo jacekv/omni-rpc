@@ -1,19 +1,28 @@
 import logging
+import uuid
 
-from colorlog import ColoredFormatter
+from pythonjsonlogger import jsonlogger
+
+
+def get_trace_id():
+    return uuid.uuid4()
+
+
+class CustomJsonFormatter(jsonlogger.JsonFormatter):
+    def add_fields(self, log_record, record, message_dict):
+        super(CustomJsonFormatter, self).add_fields(
+            log_record, record, message_dict
+        )  # noqa: E501
+        log_record["dd.trace_id"] = str(get_trace_id())
+
 
 LOG_LEVEL = logging.DEBUG
-# fmt: off
-LOGFORMAT = (
-    "%(log_color)s%(levelname)-8s%(reset)s | %(log_color)s%(message)s%(reset)s"
-)
-# fmt: on
+LOG_FORMAT = "%(asctime)s %(name)s %(levelname)s %(message)s %(dd.trace_id)s"
 
 logging.root.setLevel(LOG_LEVEL)
-formatter = ColoredFormatter(LOGFORMAT)
-stream = logging.StreamHandler()
-stream.setLevel(LOG_LEVEL)
-stream.setFormatter(formatter)
+logHandler = logging.StreamHandler()
+formatter = CustomJsonFormatter(LOG_FORMAT)
+logHandler.setFormatter(formatter)
 logger = logging.getLogger(__name__)
 logger.setLevel(LOG_LEVEL)
-logger.addHandler(stream)
+logger.addHandler(logHandler)
