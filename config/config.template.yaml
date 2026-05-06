@@ -1,0 +1,58 @@
+# omni-rpc configuration template
+# Copy this file to dev.yaml / staging.yaml / prod.yaml and adjust values.
+
+# Path to the data directory (relative or absolute).
+# Contains cloned chain data (e.g. ethereum-lists).
+data_dir: data
+
+# Rate limit: maximum number of requests per minute per IP address.
+# Set to 0 to disable rate limiting.
+rate_limit: 60
+
+# Chain data settings.
+chains:
+  # How often (in seconds) to pull the latest chain data from GitHub
+  # and hot-reload the registry. Default: 3600 (1 hour).
+  sync_interval_seconds: 3600
+
+# JSON-RPC method filtering.
+# Only methods whose namespace prefix (before the first '_') matches
+# one of these entries will be proxied. All others are rejected.
+# Common prefixes: eth, net, web3, trace, debug, txpool, admin, personal
+rpc:
+  allowed_method_prefixes:
+    - eth
+    - net
+    - web3
+
+# Response caching via Redis.
+# Static / pure-function RPC methods are cached to reduce upstream load.
+# Remove redis_url (or leave blank) to disable caching entirely.
+cache:
+  redis_url: "redis://redis:6379/0"
+  # Per-method TTLs in seconds. Omit a key to use the built-in default.
+  method_ttls:
+    eth_chainId: 86400        # immutable by spec
+    net_version: 3600
+    net_listening: 30
+    web3_clientVersion: 3600
+    web3_sha3: 86400          # pure function of input
+
+# API / server settings.
+api:
+  host: "127.0.0.1"
+  port: 8000
+  workers: 1
+  reload: false
+  access_log: true
+
+# Logging configuration.
+# formatter: json | standard | simple
+# handler: stdout
+logging:
+  formatter: standard
+  handler: stdout
+  levels:
+    root: WARNING
+    omni_rpc: INFO
+    uvicorn: INFO

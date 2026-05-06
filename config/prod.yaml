@@ -1,0 +1,29 @@
+data_dir: data
+rate_limit: 120
+
+chains:
+  sync_interval_seconds: 3600
+
+rpc:
+  allowed_method_prefixes:
+    - eth
+    - net
+    - web3
+
+cache:
+  redis_url: "redis://redis:6379/0"
+
+api:
+  host: "0.0.0.0"
+  port: 8000
+  workers: 4
+  reload: false
+  access_log: true
+
+logging:
+  formatter: json
+  handler: stdout
+  levels:
+    root: WARNING
+    omni_rpc: INFO
+    uvicorn: INFO

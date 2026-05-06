@@ -1,0 +1,17 @@
+services:
+  omni-rpc:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    environment:
+      - OMNI_RPC_ENVIRONMENT=dev
+      - PYTHONPATH=/app/src
+      - REDIS_URL=redis://redis:6379/0
+    command: ["python", "-m", "omni_rpc.main", "--environment", "dev"]
+    volumes:
+      - .:/app # The "Hot Reload" bridge
+
+  redis:
+    ports:
+      - "6379:6379"

@@ -1,0 +1,44 @@
+# services:
+#   omni-rpc:
+#     build: .
+#     ports:
+#       - "8000:8000"
+#     volumes:
+#       - chain-data:/app/data
+#     environment:
+#       - OMNI_RPC_ENVIRONMENT=dev
+
+# volumes:
+#   chain-data:
+
+services:
+  omni-rpc:
+    # This is the image name used by both Dev (to tag) and Prod (to pull)
+    image: ghcr.io/${GITHUB_REPOSITORY_OWNER:-local}/omni-rpc:latest
+    networks:
+      - rpc-net
+    volumes:
+      - chain-data:/app/data
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  redis:
+    image: redis:7-alpine
+    networks:
+      - rpc-net
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+networks:
+  rpc-net:
+    driver: bridge
+
+volumes:
+  chain-data:
+  redis-data:

@@ -1,0 +1,45 @@
+[project]
+name = "omni-rpc"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "jacekv"}
+]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi (>=0.128.0,<0.129.0)",
+    "uvicorn (>=0.40.0,<0.41.0)",
+    "typer (>=0.21.1,<0.22.0)",
+    "httpx (>=0.28.1,<0.29.0)",
+    "slowapi (>=0.1.9,<0.2.0) ; python_version >= \"3.11\" and python_version < \"4.0\"",
+    "pyyaml (>=6.0.3,<7.0.0)",
+    "python-json-logger (>=4.0.0,<5.0.0)",
+    "redis[hiredis] (>=5.0.0,<6.0.0)"
+]
+
+[tool.poetry]
+packages = [
+  { include = "omni_rpc", from = "src" }
+]
+
+[tool.poetry.scripts]
+omni-rpc = "omni_rpc.cli:app"
+
+[tool.poetry.group.dev.dependencies]
+pytest = ">=8.0.0,<9.0.0"
+pytest-asyncio = ">=0.25.0,<1.0.0"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.isort]
+profile = "black"
+
+[tool.bandit]
+skips = ["B404", "B603", "B607"]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
