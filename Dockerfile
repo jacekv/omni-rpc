@@ -1,10 +1,9 @@
-FROM python:3.11-slim AS base
+FROM python:3.13-slim AS base
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends git && \
-    rm -rf /var/lib/apt/lists/*
-
-RUN pip install --no-cache-dir poetry && \
+    rm -rf /var/lib/apt/lists/* && \
+    pip install --no-cache-dir poetry && \
     poetry config virtualenvs.create false
 
 WORKDIR /app
