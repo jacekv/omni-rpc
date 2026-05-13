@@ -4,16 +4,16 @@ services:
       - OMNI_RPC_ENVIRONMENT=prod
       - PYTHONPATH=/app/src
       - REDIS_URL=redis://redis:6379/0
+    restart: on-failure
     deploy:
       replicas: 2
-      restart_policy:
-        condition: on-failure
       resources:
         limits:
           memory: 512M
     command: ["python", "-m", "omni_rpc.main", "--environment", "prod"]
 
   redis:
+    restart: on-failure
     deploy:
       resources:
         limits:

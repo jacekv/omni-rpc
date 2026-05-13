@@ -21,7 +21,7 @@ jobs:
       - name: Run tests
         run: poetry run pytest
 
-  deploy:
+  build:
     needs: test
     runs-on: ubuntu-latest
     permissions:
@@ -46,3 +46,20 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository_owner }}/omni-rpc:latest
             ghcr.io/${{ github.repository_owner }}/omni-rpc:${{ github.sha }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy on VPS
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.CONTABO_IP }}
+          username: ${{ secrets.CONTABO_USERNAME }}
+          key: ${{ secrets.CONTABO_SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.CONTABO_SSH_PRIVATE_KEY_PASSWORD }}
+          script: |
+            export GITHUB_REPOSITORY_OWNER=${{ github.repository_owner }}
+            cd /home/jacekv/omni-rpc
+            docker compose -f docker-compose.yaml -f docker-compose.prod.yaml up -d --pull always
